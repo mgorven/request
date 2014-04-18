@@ -682,6 +682,7 @@ Request.prototype.start = function () {
   if (self.timeout && !self.timeoutTimer) {
     self.timeoutTimer = setTimeout(function () {
       self.req.abort()
+      self.req._aborted = true
       var e = new Error("ETIMEDOUT")
       e.code = "ETIMEDOUT"
       self.emit("error", e)
@@ -693,6 +694,7 @@ Request.prototype.start = function () {
       self.req.setTimeout(self.timeout, function () {
         if (self.req) {
           self.req.abort()
+          self.req._aborted = true
           var e = new Error("ESOCKETTIMEDOUT")
           e.code = "ESOCKETTIMEDOUT"
           self.emit("error", e)
